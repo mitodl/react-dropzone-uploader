@@ -1,5 +1,5 @@
 {
-  "name": "react-dropzone-uploader",
+  "name": "@mitodl/react-dropzone-uploader",
   "version": "2.11.0",
   "author": "Kyle Bebak <kylebebak@gmail.com>",
   "description": "React file dropzone and uploader: fully customizable, progress indicators, upload cancellation and restart, zero deps and excellent TypeScript support",
@@ -19,7 +19,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/fortana-co/react-dropzone-uploader.git"
+    "url": "git+https://github.com/mitodl/react-dropzone-uploader.git"
   },
   "license": "MIT",
   "peerDependencies": {
@@ -68,7 +68,7 @@
     }
   },
   "scripts": {
-    "build": "rm dist/* && tsc && NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css && cp src/*.ts* dist",
+    "build": "rm -rf dist && mkdir dist && tsc && NODE_ENV=production webpack --config webpack.build.config.js && cp src/styles.css dist/styles.css && cp src/*.ts* dist",
     "dev": "tsc -w -p tsconfig.dev.json & webpack-dev-server --config webpack.config.js --mode development --open",
     "styleguide": "tsc -w & styleguidist server",
     "build-styleguide": "tsc && styleguidist build",
@@ -86,5 +86,14 @@
     "hooks": {
       "pre-push": "npm run prettier-check"
     }
+  },
+  "bugs": {
+    "url": "https://github.com/mitodl/react-dropzone-uploader/issues"
+  },
+  "homepage": "https://github.com/mitodl/react-dropzone-uploader#readme",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "test": "tests"
   }
 }
