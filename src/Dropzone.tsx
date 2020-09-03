@@ -10,6 +10,7 @@ import {
   formatDuration,
   accepts,
   resolveValue,
+  resolveNode,
   mergeStyles,
   defaultClassNames,
   getFilesFromEvent as defaultGetFilesFromEvent,
@@ -124,9 +125,6 @@ export interface IExtraLayout extends IExtra {
 export interface ILayoutProps {
   files: IFileWithMeta[]
   extra: IExtraLayout
-  input: React.ReactNode
-  previews: React.ReactNode[] | null
-  submitButton: React.ReactNode
   dropzoneProps: {
     ref: React.RefObject<HTMLDivElement>
     className: string
@@ -136,6 +134,7 @@ export interface ILayoutProps {
     onDragLeave(event: React.DragEvent<HTMLElement>): void
     onDrop(event: React.DragEvent<HTMLElement>): void
   }
+  children: React.ReactElement
 }
 
 interface ICommonProps {
@@ -167,9 +166,8 @@ export interface IInputProps extends ICommonProps {
   accept: string
   multiple: boolean
   disabled: boolean
-  content?: React.ReactNode
-  withFilesContent?: React.ReactNode
   onFiles: (files: File[]) => void
+  children?: React.ReactElement | null | {}
 }
 
 export interface ISubmitButtonProps extends ICommonProps {
@@ -178,8 +176,8 @@ export interface ISubmitButtonProps extends ICommonProps {
   style?: React.CSSProperties
   buttonStyle?: React.CSSProperties
   disabled: boolean
-  content?: React.ReactNode
   onSubmit: (files: IFileWithMeta[]) => void
+  children?: React.ReactElement | null | {}
 }
 
 type ReactComponent<Props> = (props: Props) => React.ReactNode | React.Component<Props>
@@ -652,7 +650,6 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
             canCancel={resolveValue(canCancel, files, extra)}
             canRemove={resolveValue(canRemove, files, extra)}
             canRestart={resolveValue(canRestart, files, extra)}
-            files={files}
             extra={extra}
           />
         )
@@ -673,12 +670,14 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
           accept={accept}
           multiple={multiple}
           disabled={dropzoneDisabled}
-          content={resolveValue(inputContent, files, extra)}
-          withFilesContent={resolveValue(inputWithFilesContent, files, extra)}
           onFiles={this.handleFiles} // see: https://stackoverflow.com/questions/39484895
           files={files}
           extra={extra}
-        />
+        >
+          {files.length > 0
+            ? resolveNode(inputWithFilesContent, files, extra)
+            : resolveNode(inputContent, files, extra)}
+        </Input>
       ) : null
 
     const submitButton =
@@ -690,11 +689,12 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
           style={submitButtonContainerStyle as React.CSSProperties}
           buttonStyle={submitButtonStyle as React.CSSProperties}
           disabled={resolveValue(submitButtonDisabled, files, extra)}
-          content={resolveValue(submitButtonContent, files, extra)}
           onSubmit={this.handleSubmit}
           files={files}
           extra={extra}
-        />
+        >
+          {resolveNode(submitButtonContent, files, extra)}
+        </SubmitButton>
       ) : null
 
     let className = dropzoneClassName
@@ -714,9 +714,6 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
     return (
       //@ts-ignore
       <Layout
-        input={input}
-        previews={previews}
-        submitButton={submitButton}
         dropzoneProps={{
           ref: this.dropzone,
           className,
@@ -736,7 +733,11 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
             onRestartFile: this.handleRestart,
           } as IExtraLayout
         }
-      />
+      >
+        {previews}
+        {files.length < maxFiles && input}
+        {files.length > 0 && submitButton}
+      </Layout>
     )
   }
 }

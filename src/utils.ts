@@ -48,9 +48,15 @@ export const accepts = (file: File, accept: string) => {
 
 type ResolveFn<T> = (...args: any[]) => T
 
-export const resolveValue = <T = any>(value: ResolveFn<T> | T, ...args: any[]) => {
+type Renderable = React.ReactElement | null | undefined | string | boolean | number | {}
+
+export const resolveValue = <T = any>(value: ResolveFn<T> | T, ...args: any[]): T => {
   if (typeof value === 'function') return (value as ResolveFn<T>)(...args)
   return value
+}
+
+export const resolveNode = (value: ResolveFn<Renderable> | Renderable, ...args: any[]) => {
+  return resolveValue<Renderable>(value, ...args)
 }
 
 export const defaultClassNames = {

@@ -15,10 +15,9 @@ const Input = (props: IInputProps) => {
     accept,
     multiple,
     disabled,
-    content,
-    withFilesContent,
     onFiles,
     files,
+    children,
   } = props
 
   return (
@@ -26,7 +25,7 @@ const Input = (props: IInputProps) => {
       className={files.length > 0 ? labelWithFilesClassName : labelClassName}
       style={files.length > 0 ? labelWithFilesStyle : labelStyle}
     >
-      {files.length > 0 ? withFilesContent : content}
+      {children}
       <input
         className={className}
         style={style}
@@ -57,8 +56,6 @@ Input.propTypes = {
   accept: PropTypes.string.isRequired,
   multiple: PropTypes.bool.isRequired,
   disabled: PropTypes.bool.isRequired,
-  content: PropTypes.node,
-  withFilesContent: PropTypes.node,
   onFiles: PropTypes.func.isRequired,
   files: PropTypes.arrayOf(PropTypes.any).isRequired,
   extra: PropTypes.shape({
@@ -71,6 +68,7 @@ Input.propTypes = {
     maxSizeBytes: PropTypes.number.isRequired,
     maxFiles: PropTypes.number.isRequired,
   }).isRequired,
+  children: PropTypes.element,
 }
 
 export default Input

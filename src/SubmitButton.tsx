@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { ISubmitButtonProps } from './Dropzone'
 
 const SubmitButton = (props: ISubmitButtonProps) => {
-  const { className, buttonClassName, style, buttonStyle, disabled, content, onSubmit, files } = props
+  const { className, buttonClassName, style, buttonStyle, disabled, children, onSubmit, files } = props
 
   const _disabled =
     files.some(f => ['preparing', 'getting_upload_params', 'uploading'].includes(f.meta.status)) ||
@@ -17,7 +17,7 @@ const SubmitButton = (props: ISubmitButtonProps) => {
   return (
     <div className={className} style={style}>
       <button className={buttonClassName} style={buttonStyle} onClick={handleSubmit} disabled={disabled || _disabled}>
-        {content}
+        {children}
       </button>
     </div>
   )
@@ -29,7 +29,7 @@ SubmitButton.propTypes = {
   style: PropTypes.object,
   buttonStyle: PropTypes.object,
   disabled: PropTypes.bool.isRequired,
-  content: PropTypes.node,
+  children: PropTypes.element,
   onSubmit: PropTypes.func.isRequired,
   files: PropTypes.arrayOf(PropTypes.object).isRequired,
   extra: PropTypes.shape({

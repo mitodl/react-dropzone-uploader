@@ -4,30 +4,12 @@ import PropTypes from 'prop-types'
 import { ILayoutProps } from './Dropzone'
 
 const Layout = (props: ILayoutProps) => {
-  const {
-    input,
-    previews,
-    submitButton,
-    dropzoneProps,
-    files,
-    extra: { maxFiles },
-  } = props
+  const { dropzoneProps, children } = props
 
-  return (
-    <div {...dropzoneProps}>
-      {previews}
-
-      {files.length < maxFiles && input}
-
-      {files.length > 0 && submitButton}
-    </div>
-  )
+  return <div {...dropzoneProps}>{children}</div>
 }
 
 Layout.propTypes = {
-  input: PropTypes.node,
-  previews: PropTypes.arrayOf(PropTypes.node),
-  submitButton: PropTypes.node,
   dropzoneProps: PropTypes.shape({
     ref: PropTypes.any.isRequired,
     className: PropTypes.string.isRequired,
@@ -37,7 +19,7 @@ Layout.propTypes = {
     onDragLeave: PropTypes.func.isRequired,
     onDrop: PropTypes.func.isRequired,
   }).isRequired,
-  files: PropTypes.arrayOf(PropTypes.any).isRequired,
+  children: PropTypes.element,
   extra: PropTypes.shape({
     active: PropTypes.bool.isRequired,
     reject: PropTypes.bool.isRequired,

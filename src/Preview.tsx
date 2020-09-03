@@ -123,7 +123,6 @@ Preview.propTypes = {
   canCancel: PropTypes.bool.isRequired,
   canRemove: PropTypes.bool.isRequired,
   canRestart: PropTypes.bool.isRequired,
-  files: PropTypes.arrayOf(PropTypes.any).isRequired, // eslint-disable-line react/no-unused-prop-types
   extra: PropTypes.shape({
     active: PropTypes.bool.isRequired,
     reject: PropTypes.bool.isRequired,
