@@ -1,7 +1,7 @@
 {
-"compilerOptions": {
-  "target": "ESNext",
-  "esModuleInterop": true,
+  "compilerOptions": {
+    "target": "ESNext",
+    "esModuleInterop": true,
     "jsx": "react",
     "skipLibCheck": true,
     "noUnusedLocals": true,

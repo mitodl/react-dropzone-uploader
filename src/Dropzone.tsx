@@ -66,7 +66,7 @@ export interface IMeta {
   videoWidth?: number
   videoHeight?: number
   validationError?: any
-  response?: any
+  response?: string
 }
 
 export interface IFileWithMeta {
@@ -551,7 +551,7 @@ class Dropzone extends React.Component<IDropzoneProps, { active: boolean; dragge
         this.forceUpdate()
       }
 
-      if (xhr.status >= 400 && fileWithMeta.meta.status !== 'error_upload') {
+      if (xhr.status >= 400 && xhr.readyState === 4 && fileWithMeta.meta.status !== 'error_upload') {
         fileWithMeta.meta.status = 'error_upload'
         fileWithMeta.meta.response = xhr.response
         this.handleChangeStatus(fileWithMeta)

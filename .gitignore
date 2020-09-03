@@ -22,5 +22,6 @@ examples/src/index.js
 **/*.d.ts
 
 package-lock.json
+yarn-error.log
 
 .idea/
